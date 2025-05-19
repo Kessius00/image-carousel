@@ -1,6 +1,8 @@
 //import styles
 import './styles/reset.css';
+import './styles/styles.scss';
 
+//import images
 import bridge from './img/daniel-macura-YpiT8ehY5ME-unsplash.jpg';
 import lake from './img/juan-di-nella-ne1X1c9M0Hg-unsplash.jpg';
 import city from './img/matt-koffel-_W8p_1OBkAw-unsplash.jpg';
@@ -52,16 +54,20 @@ function updateImageBar() {
     });
 }
 
-function moveCarousel() {
-    while (true) {
-        delay(5).then(() => {
-            next();
-            updateImageBar();
-        });
-    }
-}
+let carouselInterval;
 
-// moveCarousel();
+function moveCarousel() {
+    // Clear any existing interval
+    if (carouselInterval) {
+        // Without this, if you call moveCarousel() multiple times (e.g., every time a user interacts), you’d get multiple overlapping timers, which would mess up the carousel timing.
+        clearInterval(carouselInterval);
+    }
+    // Move the carousel every 5 seconds
+    carouselInterval = setInterval(() => {
+        next();
+        updateImageBar();
+    }, 5000);
+}
 
 images.forEach((image, index) => {
     const img = document.createElement('img');
@@ -88,6 +94,7 @@ function imageBarElement() {
         currentIndex = Array.from(imageBar.children).indexOf(imageBarElement);
         updateImageBar();
         imagesContainer.style.transform = `translateX(-${currentIndex * imageWidth}px)`;
+        moveCarousel();
     });
 
     return imageBarElement;
@@ -113,21 +120,18 @@ function prev() {
     updateImageBar();
 }
 
-function delay(seconds) {
-    return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
-}
-
+moveCarousel();
 // Event Listeners
 prevButton.addEventListener('click', () => {
     prev();
+    moveCarousel();
 });
 
 nextButton.addEventListener('click', () => {
     next();
+    moveCarousel();
 });
 
 container.append(nextButton, prevButton, imagesContainer);
 content.append(container, imageBar);
 document.body.appendChild(content);
-
-import './styles/styles.scss';
