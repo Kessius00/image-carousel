@@ -1,6 +1,5 @@
 //import styles
 import './styles/reset.css';
-import './styles/styles.scss';
 
 import bridge from './img/daniel-macura-YpiT8ehY5ME-unsplash.jpg';
 import lake from './img/juan-di-nella-ne1X1c9M0Hg-unsplash.jpg';
@@ -8,8 +7,6 @@ import city from './img/matt-koffel-_W8p_1OBkAw-unsplash.jpg';
 import circuit from './img/nicolas-thomas-3GZi6OpSDcY-unsplash.jpg';
 
 const images = [bridge, lake, city, circuit];
-
-const elementImgs = [];
 
 const content = document.createElement('div');
 content.className = 'content';
@@ -39,8 +36,32 @@ imagesContainer.style.justifyContent = 'space-between';
 imagesContainer.style.width = images.length * 100 + 'vw';
 imagesContainer.className = 'images-container';
 imagesContainer.style.transition = 'transform .7s ease';
+
 let currentIndex = 0;
 const imageWidth = 500 * (4 / 3); //666.66px
+
+function updateImageBar() {
+    const allNavImg = document.querySelectorAll('.image-bar-element');
+    allNavImg.forEach((img, index) => {
+        if (img.classList.contains('active-img-bar')) {
+            img.classList.remove('active-img-bar');
+        }
+        if (index === currentIndex) {
+            img.classList.add('active-img-bar');
+        }
+    });
+}
+
+function moveCarousel() {
+    while (true) {
+        delay(5).then(() => {
+            next();
+            updateImageBar();
+        });
+    }
+}
+
+// moveCarousel();
 
 images.forEach((image, index) => {
     const img = document.createElement('img');
@@ -49,36 +70,39 @@ images.forEach((image, index) => {
     img.style.height = '500px';
     img.style.width = (500 * 4) / 3 + 'px';
     img.style.objectFit = 'cover';
-    elementImgs.push(img);
+    const imgBarElement = imageBarElement();
+    if (index === 0) {
+        imgBarElement.classList.add('active-img-bar');
+    }
+
     imagesContainer.appendChild(img);
+    imageBar.appendChild(imgBarElement);
 });
 
 function imageBarElement() {
+    // Create the image bar element
     const imageBarElement = document.createElement('div');
     imageBarElement.className = 'image-bar-element';
-    imageBarElement.style.height = '100%';
-    imageBarElement.style.width = '30px';
-    imageBarElement.style.border = '1px solid #000';
-    imageBarElement.style.borderRadius = '50%';
-    imageBarElement.style.backgroundImage = `url(${images[currentIndex]})`;
-    imageBarElement.style.backgroundSize = 'cover';
-    imageBarElement.style.transition = 'background-image .7s ease';
+
+    imageBarElement.addEventListener('click', () => {
+        currentIndex = Array.from(imageBar.children).indexOf(imageBarElement);
+        updateImageBar();
+        imagesContainer.style.transform = `translateX(-${currentIndex * imageWidth}px)`;
+    });
+
     return imageBarElement;
 }
-
-imageBar.appendChild(imageBarElement());
 
 function next() {
     if (currentIndex === images.length - 1) {
         currentIndex = 0;
+    } else {
+        currentIndex = (currentIndex + 1) % images.length;
     }
-    currentIndex = (currentIndex + 1) % images.length;
     imagesContainer.style.transform = `translateX(-${currentIndex * imageWidth}px)`;
+    updateImageBar();
 }
 
-function delay(seconds) {
-    return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
-}
 function prev() {
     if (currentIndex === 0) {
         currentIndex = images.length - 1;
@@ -86,6 +110,11 @@ function prev() {
         currentIndex = currentIndex - 1;
     }
     imagesContainer.style.transform = `translateX(-${currentIndex * imageWidth}px)`;
+    updateImageBar();
+}
+
+function delay(seconds) {
+    return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 }
 
 // Event Listeners
@@ -100,3 +129,5 @@ nextButton.addEventListener('click', () => {
 container.append(nextButton, prevButton, imagesContainer);
 content.append(container, imageBar);
 document.body.appendChild(content);
+
+import './styles/styles.scss';
