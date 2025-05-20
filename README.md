@@ -1,8 +1,3 @@
-Here's a `README.md` in the same style and structure for your **Image Carousel Component**, including integration instructions and matching SCSS class descriptions.
-
----
-
-````markdown
 # Image Carousel Component
 
 A lightweight, customizable, and responsive image carousel component built with JavaScript and SCSS. Perfect for simple slideshows, galleries, or any dynamic content needing timed transitions and user interaction.
@@ -22,6 +17,7 @@ You can install the package from npm:
 ```bash
 npm install @kessius00/image-carousel
 ```
+
 ````
 
 ## Importing the module
@@ -75,3 +71,4 @@ You can override the default styles using your own SCSS or CSS. The following cl
 - `.image-bar-element` — One dot for each image
 - `.active-img-bar` — Applied to the currently active dot
 - `button` — Navigation buttons (`<`, `>`) on the sides
+````
