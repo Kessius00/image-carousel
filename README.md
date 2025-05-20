@@ -18,8 +18,6 @@ You can install the package from npm:
 npm install @kessius00/image-carousel
 ```
 
-````
-
 ## Importing the module
 
 ```js
@@ -71,4 +69,7 @@ You can override the default styles using your own SCSS or CSS. The following cl
 - `.image-bar-element` — One dot for each image
 - `.active-img-bar` — Applied to the currently active dot
 - `button` — Navigation buttons (`<`, `>`) on the sides
-````
+
+```
+
+```
