@@ -1,6 +1,6 @@
 {
   "name": "@kessius00/image-carousel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple image-carousel with automatic movement every 5 seconds",
   "keywords": [
     "image-carousel"
